@@ -1,26 +1,26 @@
-import { Header, Transaction } from "../types";
+import { Header, Transaction } from '../types';
 const HEADER_REPORT_TYPE = 1;
-const HEADER_TAXABLE_DIFFERENT_RATE_SALES = "+00000000000";
-const HEADER_TAXABLE_DIFFERENT_RATE_SALES_VAT = "+000000000";
-const TRANSACTION_EXTRA_SPACE = "000000000";
+const HEADER_TAXABLE_DIFFERENT_RATE_SALES = '+00000000000';
+const HEADER_TAXABLE_DIFFERENT_RATE_SALES_VAT = '+000000000';
+const TRANSACTION_EXTRA_SPACE = '000000000';
 
 const getDateString = (): string => {
   const now = new Date();
   const year = now.getUTCFullYear().toString();
-  const month = ("0" + (now.getUTCMonth() + 1)).slice(-2);
-  const day = ("0" + now.getUTCDate()).slice(-2);
+  const month = ('0' + (now.getUTCMonth() + 1)).slice(-2);
+  const day = ('0' + now.getUTCDate()).slice(-2);
   return `${year}${month}${day}`;
 };
 
 const addLeadingZeros = (value: number, length: number): string => {
-  const zeros = "0".repeat(length);
+  const zeros = '0'.repeat(length);
   const stringNum = Math.abs(Math.round(value)).toString();
   const final = (zeros + stringNum).slice(-length);
   return final;
 };
 
 const numToSignedString = (value: number, length: number): string => {
-  const sign = value >= 0 ? "+" : "-";
+  const sign = value >= 0 ? '+' : '-';
   const paddedNum = addLeadingZeros(value, length);
   return `${sign}${paddedNum}`;
 };
@@ -47,10 +47,7 @@ export const headerBuilder = (header: Header): string => {
 
   const salesRecordCountString = addLeadingZeros(salesRecordCount, 9);
 
-  const zeroValOrExemptSalesCountString = numToSignedString(
-    zeroValOrExemptSalesCount,
-    11
-  );
+  const zeroValOrExemptSalesCountString = numToSignedString(zeroValOrExemptSalesCount, 11);
 
   const otherInputsVatString = numToSignedString(otherInputsVat, 9);
 
@@ -64,15 +61,7 @@ export const headerBuilder = (header: Header): string => {
 };
 
 export const transactionBuilder = (transaction: Transaction): string => {
-  const {
-    entryType,
-    vatId,
-    invoiceDate,
-    refGroup,
-    refNumber,
-    totalVat,
-    invoiceSum,
-  } = transaction;
+  const { entryType, vatId, invoiceDate, refGroup, refNumber, totalVat, invoiceSum } = transaction;
 
   const entryTypeLetter = entryType.valueOf();
 

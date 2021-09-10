@@ -4,7 +4,7 @@
   "description": "Fully typed application that generates PCN874 text file",
   "scripts": {
     "lint": "eslint './src/*/**/*.{js,ts,tsx}' --quiet --fix",
-    "prebuild": "yarn lint && yarn generate",
+    "prebuild": "yarn lint",
     "build": "tsc",
     "prepublish": "yarn build",
     "dev": "ts-node ./index.ts",
