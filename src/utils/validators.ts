@@ -73,7 +73,7 @@ const dateValidator = (value: string): boolean => {
   }
 };
 
-export const headerValidator = (header: Header): boolean => {
+export const headerValidator = (header: Header): Header => {
   if (!idValidator(header.licensedDealerId, 9)) {
     throw `Expected licensedDealerId to be 9 digits, received "${header.licensedDealerId}"`;
   }
@@ -86,10 +86,18 @@ export const headerValidator = (header: Header): boolean => {
     throw `Expected generationDate to be legit date formed as YYYYMM, received "${header.generationDate}"`;
   }
 
-  return true;
+  if (header.salesRecordCount < 0) {
+    throw `Expected salesRecordCount to be >= 0, received "${header.salesRecordCount}"`;
+  }
+
+  if (header.inputsCount < 0) {
+    throw `Expected inputsCount to be >= 0, received "${header.inputsCount}"`;
+  }
+
+  return header;
 };
 
-export const transactionValidator = (transaction: Transaction): boolean => {
+export const transactionValidator = (transaction: Transaction): Transaction => {
   switch (transaction.entryType) {
     case EntryType.SALE_REGULAR: {
       transaction.totalVat = transaction.totalVat || 0;
@@ -171,5 +179,5 @@ export const transactionValidator = (transaction: Transaction): boolean => {
     throw `Expected invoiceSum to be a negative number, received "${transaction.invoiceSum}"`;
   }
 
-  return true;
+  return transaction;
 };
