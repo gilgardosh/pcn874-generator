@@ -31,5 +31,5 @@
     "no-void": ["warn", { "allowAsStatement": false }],
     "no-prototype-builtins" : "warn"
   },
-  "ignorePatterns": ["**/generated/**"]
+  "ignorePatterns": ["**/generated/**", "dist"]
 }
