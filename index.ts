@@ -1,20 +1,14 @@
-import { Header, Transaction } from "./src/types";
-import {
-  footerBuilder,
-  headerBuilder,
-  headerValidator,
-  transactionBuilder,
-  transactionValidator,
-} from "./src/utils";
+import { Header, Transaction } from './src/types';
+import { footerBuilder, headerBuilder, headerValidator, transactionBuilder, transactionValidator } from './src/utils';
 
-const generator = (header: Header, transactions: Transaction[]) => {
-  let textFile = "";
+const generator = (header: Header, transactions: Transaction[]): string => {
+  let textFile = '';
 
   // handle header
   try {
     header = headerValidator(header);
   } catch (e) {
-    throw `Header validation error: ${(e as Error).message}`;
+    throw new Error(`Header validation error: ${(e as Error).message}`);
   }
   textFile += headerBuilder(header);
 
@@ -24,7 +18,7 @@ const generator = (header: Header, transactions: Transaction[]) => {
     try {
       transaction = transactionValidator(transaction);
     } catch (e) {
-      throw `Transaction index ${i} validation error: ${(e as Error).message}`;
+      throw new Error(`Transaction index ${i} validation error: ${(e as Error).message}`);
     }
     textFile += transactionBuilder(transaction);
   }
