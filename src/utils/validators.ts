@@ -38,6 +38,14 @@ const yearMonthValidator = (value: string): boolean => {
   }
 };
 
+const getDateString = (): string => {
+  const now = new Date();
+  const year = now.getUTCFullYear().toString();
+  const month = ('0' + (now.getUTCMonth() + 1)).slice(-2);
+  const day = ('0' + now.getUTCDate()).slice(-2);
+  return `${year}${month}${day}`;
+};
+
 const dateValidator = (value: string): boolean => {
   try {
     if (value.length !== 8) {
@@ -81,8 +89,9 @@ export const headerValidator = (header: Header): Header => {
     throw new Error(`Expected reportMonth to be legit date formed as YYYYMM, received "${header.reportMonth}"`);
   }
 
-  if (!yearMonthValidator(header.generationDate)) {
-    throw new Error(`Expected generationDate to be legit date formed as YYYYMM, received "${header.generationDate}"`);
+  header.generationDate = header.generationDate || getDateString();
+  if (!dateValidator(header.generationDate)) {
+    throw new Error(`Expected generationDate to be legit date formed as YYYYMMDD, received "${header.generationDate}"`);
   }
 
   if (header.salesRecordCount < 0) {
@@ -99,7 +108,18 @@ export const headerValidator = (header: Header): Header => {
 export const transactionValidator = (transaction: Transaction): Transaction => {
   switch (transaction.entryType) {
     case EntryType.SALE_REGULAR: {
-      transaction.totalVat = transaction.totalVat || 0;
+      if (transaction.invoiceSum <= 5000) {
+        transaction.vatId = transaction.vatId || '000000000';
+      }
+      break;
+    }
+    case EntryType.SALE_ZERO_OR_EXEMPT: {
+      if (transaction.totalVat && transaction.totalVat !== 0) {
+        console.error(
+          `Transactions of entry type "SALE_ZERO_OR_EXEMPT" VAT should be 0, received "${transaction.totalVat}". Replacing with 0`,
+        );
+        transaction.totalVat = 0;
+      }
 
       if (transaction.invoiceSum <= 5000) {
         transaction.vatId = transaction.vatId || '000000000';
@@ -108,12 +128,24 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
     }
     case EntryType.SALE_UNIDENTIFIED_CUSTOMER: {
       if (transaction.vatId && transaction.vatId !== '000000000') {
-        console.error(
-          `Transactions of entry type "SALE_UNIDENTIFIED_CUSTOMER" should not include vatId, received "${transaction.vatId}". Replacing with "000000000"`,
+        console.debug(
+          `Transactions of entry type "SALE_UNIDENTIFIED_CUSTOMER" should not include vatId, received "${transaction.vatId}".`,
         );
-        transaction.vatId = '000000000';
+      }
+      break;
+    }
+    case EntryType.SALE_UNIDENTIFIED_ZERO_OR_EXEMPT: {
+      if (transaction.vatId && transaction.vatId !== '000000000') {
+        console.debug(
+          `Transactions of entry type "SALE_UNIDENTIFIED_ZERO_OR_EXEMPT" should not include vatId, received "${transaction.vatId}".`,
+        );
 
-        transaction.totalVat = transaction.totalVat || 0;
+        if (transaction.totalVat && transaction.totalVat !== 0) {
+          console.error(
+            `Transactions of entry type "SALE_UNIDENTIFIED_ZERO_OR_EXEMPT" VAT should be 0, received "${transaction.totalVat}". Replacing with 0`,
+          );
+          transaction.totalVat = 0;
+        }
       }
       break;
     }
@@ -128,10 +160,9 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
     }
     case EntryType.INPUT_PETTY_CASH: {
       if (transaction.vatId && transaction.vatId !== '000000000') {
-        console.error(
-          `Transactions of entry type "INPUT_PETTY_CASH" should not include vatId, received "${transaction.vatId}". Replacing with "000000000"`,
+        console.debug(
+          `Transactions of entry type "INPUT_PETTY_CASH" should not include vatId, received "${transaction.vatId}".`,
         );
-        transaction.vatId = '000000000';
       }
 
       const invoicesNum = parseInt(transaction.refNumber);
@@ -144,10 +175,9 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
     }
     case EntryType.INPUT_IMPORT: {
       if (transaction.refNumber && transaction.refNumber !== '000000000') {
-        console.error(
-          `Transactions of entry type "INPUT_IMPORT" should not include refNumber, received "${transaction.refNumber}". Replacing with "000000000"`,
+        console.debug(
+          `Transactions of entry type "INPUT_IMPORT" should not include refNumber, received "${transaction.refNumber}".`,
         );
-        transaction.refNumber = '000000000';
       }
       break;
     }
@@ -174,7 +204,7 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
     throw new Error(`Expected refNumber to be 9 digits, received "${transaction.refNumber}"`);
   }
 
-  if (transaction.totalVat >= 0) {
+  if (transaction.totalVat < 0) {
     throw new Error(`Expected totalVat to be a positive number, received "${transaction.totalVat}"`);
   }
 

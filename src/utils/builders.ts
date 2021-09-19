@@ -4,14 +4,6 @@ const HEADER_TAXABLE_DIFFERENT_RATE_SALES = '+00000000000';
 const HEADER_TAXABLE_DIFFERENT_RATE_SALES_VAT = '+000000000';
 const TRANSACTION_EXTRA_SPACE = '000000000';
 
-const getDateString = (): string => {
-  const now = new Date();
-  const year = now.getUTCFullYear().toString();
-  const month = ('0' + (now.getUTCMonth() + 1)).slice(-2);
-  const day = ('0' + now.getUTCDate()).slice(-2);
-  return `${year}${month}${day}`;
-};
-
 const addLeadingZeros = (value: number, length: number): string => {
   const zeros = '0'.repeat(length);
   const stringNum = Math.abs(Math.round(value)).toString();
@@ -28,6 +20,7 @@ const numToSignedString = (value: number, length: number): string => {
 export const headerBuilder = (header: Header): string => {
   const {
     licensedDealerId,
+    generationDate,
     reportMonth,
     taxableSalesAmount,
     taxableSalesVat,
@@ -38,8 +31,6 @@ export const headerBuilder = (header: Header): string => {
     inputsCount,
     totalVat,
   } = header;
-
-  const generationDate = header.generationDate || getDateString();
 
   const taxableSalesAmountString = numToSignedString(taxableSalesAmount, 11);
 

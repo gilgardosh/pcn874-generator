@@ -153,6 +153,78 @@ export interface Header {
   totalVat: number;
 }
 
+export const enum EntryType {
+  /**
+   * Sales – "regular" sale
+   * identified commercial customer
+   * */
+  SALE_REGULAR = 'S',
+
+  /**
+   * Sales – "Zero Value/Exempt" sale
+   * not export
+   * */
+  SALE_ZERO_OR_EXEMPT = 'S',
+
+  /**
+   * Sales – for unidentified (private) customer
+   * /unidentified-cash
+   * register aggregation etc
+   * */
+  SALE_UNIDENTIFIED_CUSTOMER = 'L',
+
+  /**
+   * Sales – for unidentified Zero Value/Exempt
+   * private customer – aggregated
+   * */
+  SALE_UNIDENTIFIED_ZERO_OR_EXEMPT = 'L',
+
+  /**
+   * Sales – self invoice
+   * */
+  SALE_SELF_INVOICE = 'M',
+
+  /**
+   * Sales – export
+   * */
+  SALE_EXPORT = 'Y',
+
+  /**
+   * Sales – Palestinian Authority customer. Palestinian customer – Invoice I
+   * */
+  SALE_PALESTINIAN_CUSTOMER = 'I',
+
+  /**
+   * Input – "regular" from Israeli Supplier
+   * */
+  INPUT_REGULAR = 'T',
+
+  /**
+   * Input – Petty Cash. Various suppliers – Petty Cash
+   * */
+  INPUT_PETTY_CASH = 'K',
+
+  /**
+   * Input – Import. Overseas supplier
+   * */
+  INPUT_IMPORT = 'R',
+
+  /**
+   * Input – Supplier from Palestinian Authority. Palestinian supplier – Invoice P
+   * */
+  INPUT_PALESTINIAN_SUPPLIER = 'P',
+
+  /**
+   * Input – Single document by law. Such as Import entry, bank document etc.
+   * */
+  INPUT_SINGLE_DOC_BY_LAW = 'H',
+
+  /**
+   * Input – self invoice
+   * */
+  INPUT_SELF_INVOICE = 'C',
+}
+
 /**
  * Transaction Entry Variables
  */
@@ -214,61 +286,4 @@ export interface Transaction {
   //  * Reference number to be allocated by "Sha'am" to the supplier
   //  */
   // extraSpace: string;
-}
-
-export enum EntryType {
-  /**
-   * Sales – "regular" sale
-   * */
-  SALE_REGULAR = "S",
-
-  /**
-   * Sales – for unidentified (private) customer
-   * */
-  SALE_UNIDENTIFIED_CUSTOMER = "L",
-
-  /**
-   * Sales – self invoice
-   * */
-  SALE_SELF_INVOICE = "M",
-
-  /**
-   * Sales – export
-   * */
-  SALE_EXPORT = "Y",
-
-  /**
-   * Sales – Palestinian Authority customer. Palestinian customer – Invoice I
-   * */
-  SALE_PALESTINIAN_CUSTOMER = "I",
-
-  /**
-   * Input – "regular" from Israeli Supplier
-   * */
-  INPUT_REGULAR = "T",
-
-  /**
-   * Input – Petty Cash. Various suppliers – Petty Cash
-   * */
-  INPUT_PETTY_CASH = "K",
-
-  /**
-   * Input – Import. Overseas supplier
-   * */
-  INPUT_IMPORT = "R",
-
-  /**
-   * Input – Supplier from Palestinian Authority. Palestinian supplier – Invoice P
-   * */
-  INPUT_PALESTINIAN_SUPPLIER = "P",
-
-  /**
-   * Input – Single document by law. Such as Import entry, bank document etc.
-   * */
-  INPUT_SINGLE_DOC_BY_LAW = "H",
-
-  /**
-   * Input – self invoice
-   * */
-  INPUT_SELF_INVOICE = "C",
 }
