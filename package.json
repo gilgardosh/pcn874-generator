@@ -1,6 +1,6 @@
 {
   "name": "pcn874-generator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Fully typed application that generates PCN874 text file",
   "scripts": {
     "lint": "eslint './src/*/**/*.{js,ts,tsx}' --quiet --fix",
