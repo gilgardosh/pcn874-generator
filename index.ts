@@ -1,7 +1,7 @@
 import { Header, Transaction } from './src/types';
 import { footerBuilder, headerBuilder, headerValidator, transactionBuilder, transactionValidator } from './src/utils';
 
-const generate = (header: Header, transactions: Transaction[]): string => {
+export const generate = (header: Header, transactions: Transaction[]): string => {
   let textFile = '';
 
   // handle header
@@ -28,5 +28,3 @@ const generate = (header: Header, transactions: Transaction[]): string => {
 
   return textFile;
 };
-
-export default generate;
