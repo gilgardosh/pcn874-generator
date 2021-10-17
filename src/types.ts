@@ -5,12 +5,14 @@ export interface Header {
   /**
    * User Licensed Dealer identification Number
    * 9 digits
+   * מספר עוסק
    */
   licensedDealerId: string;
 
   /**
    * Month for which detailed report is being submitted
    * YYYYMM
+   * תקופת הדיווח
    */
   reportMonth: string;
 
@@ -25,6 +27,7 @@ export interface Header {
    * File Generation Date
    * YYYYMM
    * if undefined - current date will be inputed
+   * תאריך הגשה
    */
   generationDate?: string;
 
@@ -39,6 +42,7 @@ export interface Header {
   /**
    * Total amount of taxable sales (excluding VAT)
    * in the reported file
+   * עסקאות חייבות
    */
   taxableSalesAmount: number;
 
@@ -53,6 +57,7 @@ export interface Header {
   /**
    * Total VAT on taxable sales
    * in the reported file
+   * מע"מ עסקאות חייבות
    */
   taxableSalesVat: number;
 
@@ -91,6 +96,7 @@ export interface Header {
   /**
    * Total number of records for "sales".
    * Number of sales records - both taxable and zero-rated/ exempt
+   * מס' עסקאות
    */
   salesRecordCount: number;
 
@@ -104,6 +110,7 @@ export interface Header {
 
   /**
    * Total of zero value/exempt sales for period
+   * עסקאות פטורות / אפס
    */
   zeroValOrExemptSalesCount: number;
 
@@ -117,6 +124,7 @@ export interface Header {
 
   /**
    * Total VAT on "other" inputs required during period
+   * תשומות אחרות
    */
   otherInputsVat: number;
 
@@ -130,11 +138,13 @@ export interface Header {
 
   /**
    * Total VAT on "equipment" inputs required during period
+   * תשומות ציוד
    */
   equipmentInputsVat: number;
 
   /**
    * Total number of records for inputs (other and equipment)
+   * מס' תשומות
    */
   inputsCount: number;
 
@@ -149,6 +159,7 @@ export interface Header {
    * Total VAT to pay / receive for period
    * positive value => pay
    * negative value => receive
+   * סכום מדווח
    */
   totalVat: number;
 }
@@ -157,12 +168,14 @@ export const enum EntryType {
   /**
    * Sales – "regular" sale
    * identified commercial customer
+   * עסקה רגילה - מזוהה
    * */
   SALE_REGULAR = 'S',
 
   /**
    * Sales – "Zero Value/Exempt" sale
    * not export
+   * עסקה אפס - מזוהה
    * */
   SALE_ZERO_OR_EXEMPT = 'S',
 
@@ -170,17 +183,20 @@ export const enum EntryType {
    * Sales – for unidentified (private) customer
    * /unidentified-cash
    * register aggregation etc
+   * עסקה רגילה - לא מזוהה
    * */
   SALE_UNIDENTIFIED_CUSTOMER = 'L',
 
   /**
    * Sales – for unidentified Zero Value/Exempt
    * private customer – aggregated
+   * עסקה אפס - לא מזוהה
    * */
   SALE_UNIDENTIFIED_ZERO_OR_EXEMPT = 'L',
 
   /**
    * Sales – self invoice
+   * חשבונית עצמית (עסקה)
    * */
   SALE_SELF_INVOICE = 'M',
 
@@ -191,36 +207,43 @@ export const enum EntryType {
 
   /**
    * Sales – Palestinian Authority customer. Palestinian customer – Invoice I
+   * לקוח רש"פ
    * */
   SALE_PALESTINIAN_CUSTOMER = 'I',
 
   /**
    * Input – "regular" from Israeli Supplier
+   * תשומה רגילה
    * */
   INPUT_REGULAR = 'T',
 
   /**
    * Input – Petty Cash. Various suppliers – Petty Cash
+   * קופה קטנה
    * */
   INPUT_PETTY_CASH = 'K',
 
   /**
    * Input – Import. Overseas supplier
+   * רשימון יבוא
    * */
   INPUT_IMPORT = 'R',
 
   /**
    * Input – Supplier from Palestinian Authority. Palestinian supplier – Invoice P
+   * ספק רש"פ
    * */
   INPUT_PALESTINIAN_SUPPLIER = 'P',
 
   /**
    * Input – Single document by law. Such as Import entry, bank document etc.
+   * מסמך אחר
    * */
   INPUT_SINGLE_DOC_BY_LAW = 'H',
 
   /**
    * Input – self invoice
+   * חשבונית עצמית (תשומה)
    * */
   INPUT_SELF_INVOICE = 'C',
 }
@@ -231,6 +254,7 @@ export const enum EntryType {
 export interface Transaction {
   /**
    * Entry Type (document type)
+   * סוג רשומה
    */
   entryType: EntryType;
 
@@ -238,30 +262,35 @@ export interface Transaction {
    * VAT identification number – of the other side of the transaction.
    * For transactions entries – the customer
    * For inputs – the supplier
+   * ספק / רשימון
    */
   vatId?: string;
 
   /**
    * Invoice Date/Reference.
    * YYYYMMDD
+   * תאריך החשבונית
    */
   invoiceDate: string;
 
   /**
    * Reference group.
    * Series etc. zeros are possible at this stage
+   * קבוצת אסמכתא
    */
   refGroup?: string;
 
   /**
    * Reference number.
    * First 9 positions from the right
+   * מספר אסמכתא
    */
   refNumber?: string;
 
   /**
    * Total VAT in invoice / total VAT that is allowed (1/4…. 2/3…).
    * Rounded to the nearest shekel – always a positive value
+   * סכום המע"מ
    */
   totalVat?: number;
 
@@ -277,6 +306,7 @@ export interface Transaction {
   /**
    * Invoice total (excluding VAT)
    * Always the 100%, always a positive value, rounded to the nearest shekel
+   * סכום
    */
   invoiceSum: number;
 
