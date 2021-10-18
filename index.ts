@@ -1,12 +1,13 @@
 import { Header, Transaction } from './src/types';
-import { footerBuilder, headerBuilder, headerValidator, transactionBuilder, transactionValidator } from './src/utils';
+import { footerBuilder, headerBuilder, transactionBuilder } from './src/utils';
+import { headerHandler, transactionHandler } from './src/utils/dataHandlers';
 
 export const generate = (header: Header, transactions: Transaction[]): string => {
   let textFile = '';
 
   // handle header
   try {
-    header = headerValidator(header);
+    header = headerHandler(header);
   } catch (e) {
     throw new Error(`Header validation error: ${(e as Error).message}`);
   }
@@ -16,7 +17,7 @@ export const generate = (header: Header, transactions: Transaction[]): string =>
   for (let i = 0; i < transactions.length; i++) {
     let transaction = transactions[i];
     try {
-      transaction = transactionValidator(transaction);
+      transaction = transactionHandler(transaction);
     } catch (e) {
       throw new Error(`Transaction index ${i} validation error: ${(e as Error).message}`);
     }
