@@ -1,7 +1,7 @@
 import { EntryType, Header, Transaction } from '../types';
 
 const onlyDigitsValidator = (value: string): boolean => {
-  return value && /^\d+$/.test(value);
+  return !!value && /^\d+$/.test(value);
 };
 
 const idValidator = (value: string, length: number): boolean => {
@@ -165,7 +165,7 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
         );
       }
 
-      const invoicesNum = parseInt(transaction.refNumber);
+      const invoicesNum = transaction.refNumber ? parseInt(transaction.refNumber) : 0;
       if (isNaN(invoicesNum) || invoicesNum === 0) {
         throw new Error(
           `On transactions of entry type "INPUT_PETTY_CASH", refNumber should reflect the number of invoices in the entry (hence > 0), received "${transaction.refNumber}"`,
@@ -187,7 +187,7 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
     }
   }
 
-  if (!idValidator(transaction.vatId, 9)) {
+  if (transaction.vatId && !idValidator(transaction.vatId, 9)) {
     throw new Error(`Expected vatId to be 9 digits, received "${transaction.vatId}"`);
   }
 
@@ -200,11 +200,11 @@ export const transactionValidator = (transaction: Transaction): Transaction => {
     throw new Error(`Expected refGroup to be 4 chars long, received "${transaction.refGroup}"`);
   }
 
-  if (!idValidator(transaction.refNumber, 9)) {
+  if (!!transaction.refNumber && !idValidator(transaction.refNumber, 9)) {
     throw new Error(`Expected refNumber to be 9 digits, received "${transaction.refNumber}"`);
   }
 
-  if (transaction.totalVat < 0) {
+  if (!!transaction.totalVat && transaction.totalVat < 0) {
     throw new Error(`Expected totalVat to be a positive number, received "${transaction.totalVat}"`);
   }
 

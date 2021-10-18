@@ -1,6 +1,6 @@
-import { Header, Transaction } from './src/types';
-import { footerBuilder, headerBuilder, transactionBuilder } from './src/utils';
-import { headerHandler, transactionHandler } from './src/utils/dataHandlers';
+import { Header, Transaction } from './types.js';
+import { footerBuilder, headerBuilder, transactionBuilder } from './utils/index.js';
+import { headerHandler, transactionHandler } from './utils/dataHandlers.js';
 
 const pcnGenerator = (header: Header, transactions: Transaction[]): string => {
   let textFile = '';

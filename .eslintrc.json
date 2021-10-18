@@ -1,5 +1,5 @@
 {
-  "root": true,
+  // "root": true,
   "env": {
     "browser": true,
     "es2020": true
@@ -9,16 +9,14 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "plugin:prettier/recommended", // Ena  bles eslint-plPugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
-    "prettier"
+    "prettier",
+    "plugin:prettier/recommended" // Enables eslint-plPugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
     "sourceType": "module", // Allows for the use of imports
-    "ecmaFeatures": {
-      "jsx": true // Allows for the parsing of JSX
-    }
+    "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
   "rules": {

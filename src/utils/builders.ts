@@ -4,7 +4,7 @@ const HEADER_TAXABLE_DIFFERENT_RATE_SALES = '+00000000000';
 const HEADER_TAXABLE_DIFFERENT_RATE_SALES_VAT = '+000000000';
 const TRANSACTION_EXTRA_SPACE = '000000000';
 
-const addLeadingZeros = (value: number, length: number): string => {
+const addLeadingZeros = (value = 0, length: number): string => {
   const zeros = '0'.repeat(length);
   const stringNum = Math.abs(Math.round(value)).toString();
   const final = (zeros + stringNum).slice(-length);
