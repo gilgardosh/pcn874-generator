@@ -1,6 +1,6 @@
 {
   "name": "pcn874-generator",
-  "version": "0.1.4",
+  "version": "0.1.3",
   "description": "Fully typed application that generates PCN874 text file",
   "type": "module",
   "main": "dist/index.js",
