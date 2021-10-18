@@ -1,4 +1,4 @@
-import { Header, Transaction } from './types.js';
+import { Header, Transaction } from './types';
 import { footerBuilder, headerBuilder, transactionBuilder } from './utils/index.js';
 import { headerHandler, transactionHandler } from './utils/dataHandlers.js';
 

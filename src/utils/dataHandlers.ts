@@ -1,5 +1,5 @@
 import { headerValidator, transactionValidator } from './index.js';
-import { Header, Transaction } from '../types.js';
+import { Header, Transaction } from '../types';
 
 const digitsAdjuster = (value: string, length: number) => {
   return `${'0'.repeat(length)}${value}`.slice(-length);
