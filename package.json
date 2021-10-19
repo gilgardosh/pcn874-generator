@@ -24,7 +24,7 @@
     "prebuild": "yarn lint",
     "build": "tsc",
     "prepublish": "yarn build",
-    "dev": "ts-node ./index.ts",
+    "dev": "node --experimental-json-modules --loader ts-node/esm src/index.ts",
     "start": "node ./dist"
   },
   "engines": {
