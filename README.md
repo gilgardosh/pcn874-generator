@@ -1,8 +1,5 @@
-# pcn874-generator
-Fully typed application that generates PCN874 text file
+# The PCN874 Generator has been moved
 
-based on https://www.gov.il/BlobFolder/generalpage/tax-vat-online-invoice-reporting/he/IncomeTax_IncomeTaxSoftwareHousesInfo_874-eng.pdf
+**This tool has been moved to [@accounter-toolkit/pcn874-generator](https://github.com/gilgardosh/accounter-toolkit/tree/master/packages/pcn874-generator)**
 
-TODO:
-1. Add header vs transactions sum validation
-2. Add multiple user reporting by representative functionality
+as a part of the [Accounter Toolkit](https://github.com/gilgardosh/accounter-toolkit/) monorepo.
